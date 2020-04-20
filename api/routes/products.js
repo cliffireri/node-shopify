@@ -2,14 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
+//all tyhe routes handle products logic
 router.get('/', (req, res, next) => {
     res.status(200).json({
         message:'Serving get products'
     })
 })
 router.post('/', (req, res, next) => {
+    const products = {
+        name: req.body.name,
+        price: req.body.price
+    }
     res.status(201).json({
-        message:'Serving post products'
+        message:'Serving post products',
+        product: products
     })
 })
 
