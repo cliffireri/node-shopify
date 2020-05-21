@@ -6,8 +6,7 @@ const Product = require('../models/product')
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    Order.find().select('quantity product _id').exec().then(orders => {
-        console.log(res);
+    Order.find().select('quantity product _id').populate('product').exec().then(orders => {
         res.status(200).json({
             count: orders.length,
             orders: orders.map(order => {
@@ -56,7 +55,6 @@ router.post('/', (req, res, next) => {
             }
         })
     }).catch(error => {
-        console.log(error);
         res.status(500).json({
             error: error
         })
@@ -65,7 +63,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:orderId', (req, res, next) => {
     const order_id = req.params.orderId;
-    Order.findById(order_id).select('quantity product _id').exec().then(order => {
+    Order.findById(order_id).select('quantity product _id').populate('product').exec().then(order => {
         if(!order){
             res.status(404).json({
                 message: 'Order not found'
