@@ -16,6 +16,7 @@ mongoose.connect('mongodb+srv://node-rest-shop:'+ process.env.MONGO_ATLAS_PW +'@
 
 const productRouter = require('./api/routes/products')
 const orderRouter = require('./api/routes/orders')
+const userRouter = require('./api/routes/user')
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -30,6 +31,8 @@ app.use((req, res, next) => {
 app.use('/products', productRouter);
 
 app.use('/orders', orderRouter);
+
+app.use('/users', userRouter);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
