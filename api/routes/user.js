@@ -8,6 +8,8 @@ const User = require('../models/user')
 
 const bcrypt = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+
 router.post('/signup', (req, res, next) => {
     User.find({email: req.body.email}).exec().then(user => {
         if(user.length >= 1){
@@ -53,10 +55,20 @@ router.post('/login', (req, res, next) => {
                 return res.status(401).json({message: "Auth failed"})
             }
             if(result){
-                return res.status(200).json({message: 'Auth successful'})
-            }else{
-                return res.status(401).json({message: "Auth failed"})
+                const token = jwt.sign({
+                    email: user[0].email,
+                    id:user[0]._id
+                },process.env.JWT_KEY,{
+                    expiresIn:"1h"
+                });
+                return res.status(200).json({
+                    message: 'Auth successful',
+                    token: token
+                })
             }
+            res.status(401).json({
+                message: "Auth failed",
+            })
         })
 
     }).catch(error => {

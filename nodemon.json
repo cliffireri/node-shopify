@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_PW":"node-rest-shop",
-        "APP_URL":"http://localhost:3000"
+        "APP_URL":"http://localhost:3000",
+        "JWT_KEY":"secret"
     }
 }
